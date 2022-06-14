@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.4.0" />
     <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.27.0" />
     <PackageReference Include="Selenium.WebDriver" Version="4.2.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="102.0.5005.6102" />
@@ -15,7 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FacadeClient\FacadeClient.csproj" />
+    <ProjectReference Include="..\ConfigurationClient\ConfigurationClient.csproj" />
+    <ProjectReference Include="..\JsonResponseClient\JsonResponseClient.csproj" />
   </ItemGroup>
 
 </Project>

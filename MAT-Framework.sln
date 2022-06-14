@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDriverClient", "WebDriverClient\WebDriverClient.csproj", "{C9D6E27A-4944-483E-BC8D-7839864676B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebDriverClient", "WebDriverClient\WebDriverClient.csproj", "{C9D6E27A-4944-483E-BC8D-7839864676B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationClient", "ConfigurationClient\ConfigurationClient.csproj", "{E23D580A-C55B-42BA-8267-AA794F2A06C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigurationClient", "ConfigurationClient\ConfigurationClient.csproj", "{E23D580A-C55B-42BA-8267-AA794F2A06C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacadeClient", "FacadeClient\FacadeClient.csproj", "{73D53902-D693-41E6-BB9C-A62BC2F75618}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDriverClient.UnitTests", "WebDriverClient.UnitTests\WebDriverClient.UnitTests.csproj", "{68134D95-81E5-4DC7-A63B-9BAB4752FEDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonResponseClient", "JsonResponseClient\JsonResponseClient.csproj", "{0920970D-5715-4125-A0C1-86C0B954E335}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacadeService", "FacadeService\FacadeService.csproj", "{27A77372-1295-4E67-91A5-F7DD428ADF0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +27,18 @@ Global
 		{E23D580A-C55B-42BA-8267-AA794F2A06C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E23D580A-C55B-42BA-8267-AA794F2A06C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E23D580A-C55B-42BA-8267-AA794F2A06C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73D53902-D693-41E6-BB9C-A62BC2F75618}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73D53902-D693-41E6-BB9C-A62BC2F75618}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73D53902-D693-41E6-BB9C-A62BC2F75618}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73D53902-D693-41E6-BB9C-A62BC2F75618}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68134D95-81E5-4DC7-A63B-9BAB4752FEDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68134D95-81E5-4DC7-A63B-9BAB4752FEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68134D95-81E5-4DC7-A63B-9BAB4752FEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68134D95-81E5-4DC7-A63B-9BAB4752FEDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0920970D-5715-4125-A0C1-86C0B954E335}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0920970D-5715-4125-A0C1-86C0B954E335}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0920970D-5715-4125-A0C1-86C0B954E335}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0920970D-5715-4125-A0C1-86C0B954E335}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27A77372-1295-4E67-91A5-F7DD428ADF0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27A77372-1295-4E67-91A5-F7DD428ADF0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27A77372-1295-4E67-91A5-F7DD428ADF0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27A77372-1295-4E67-91A5-F7DD428ADF0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

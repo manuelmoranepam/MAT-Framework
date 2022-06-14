@@ -1,0 +1,8 @@
+{
+	"Browser": "HeadlessEdge",
+	"BaseUrl": "https://twitter.com/",
+	"PageLoad": "300",
+	"ImplicitWait": "15",
+	"ExplicitWait": "30",
+	"SleepInterval": "10"
+}

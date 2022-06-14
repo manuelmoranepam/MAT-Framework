@@ -1,6 +1,6 @@
 ﻿namespace WebDriverClient.Enums
 {
-	internal enum Browser
+	public enum Browser
 	{
 		Chrome,
 		Firefox,
