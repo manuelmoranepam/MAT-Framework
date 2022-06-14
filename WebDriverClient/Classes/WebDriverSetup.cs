@@ -1,69 +1,110 @@
 ﻿using Autofac;
-using FacadeClient.Interfaces;
+using ConfigurationClient.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Support.UI;
 using WebDriverClient.Enums;
+using WebDriverClient.Interfaces;
+using WebDriverClient.Models;
 using WebDriverManager;
 using WebDriverManager.DriverConfigs.Impl;
 
 namespace WebDriverClient.Classes
 {
-	public class WebDriverSetup
+	public class WebDriverSetup : IWebDriverClient
 	{
-		private readonly IFacadeClient _facadeClient;
+		private dynamic? _options;
+		private IClock? _clock;
+		private TimeSpan _pageLoadSeconds;
+		private TimeSpan _implicitWaitSeconds;
+		private TimeSpan _explicitWaitSeconds;
+		private TimeSpan _sleepIntervalSeconds;
+
+		private readonly string _baseUrl;
+		private readonly FacadeClient _facadeClient;
+		private readonly IDriverConfiguration _driverConfiguration;
+		private readonly IConfigurationClient _configurationClient;
+		private readonly IConfigurationFileInformation _configurationFileInformation;
 		private readonly Browser _browser;
-		private readonly IWebDriver _driver;
+		private readonly IWebDriver _webDriver;
+		private readonly WebDriverWait _webDriverWait;
 
-		public WebDriverSetup(IFacadeClient facadeClient, string configFilePath, string browserKey)
+		public WebDriverSetup(IContainer container, IConfigurationFileInformation configurationFileInformation)
 		{
-			_facadeClient = facadeClient;
+			if (container is null)
+				throw new ArgumentNullException(nameof(container));
+			if (configurationFileInformation is null)
+				throw new ArgumentNullException(nameof(_configurationFileInformation));
 
-			_browser = GetBrowser(configFilePath, browserKey);
-			
-			_driver = LaunchWebDriver();
+			_facadeClient = new FacadeClient(container);
+
+			_configurationFileInformation = configurationFileInformation;
+
+			_configurationClient = SetupConfigurationClient();
+
+			_driverConfiguration = SetupDriverConfiguration();
+
+			_browser = SetupBrowser();
+
+			_baseUrl = SetupBaseUrl();
+
+			_webDriver = LaunchWebDriver();
+
+			_webDriverWait = SetupWebDriverWait();
 		}
 
-		private Browser GetBrowser(string configFilePath, string browserKey)
+		private IConfigurationClient SetupConfigurationClient()
 		{
-			var configuration = _facadeClient.ResolveConfigurationClient(configFilePath, false, true);
+			var configurationReader = _facadeClient.ResolveConfigurationClient(
+				_configurationFileInformation.FilePath,
+				_configurationFileInformation.FileName,
+				_configurationFileInformation.IsOptional,
+				_configurationFileInformation.ReloadOnChange);
 
-			var value = configuration.GetValue(browserKey);
+			return configurationReader;
+		}
 
-			var browser = (Browser)Enum.Parse(typeof(Browser), value, true);
+		private IDriverConfiguration SetupDriverConfiguration()
+		{
+			var configurationFileContent = _configurationClient.GetConfigurationFileContent();
+
+			if (string.IsNullOrWhiteSpace(configurationFileContent))
+				throw new ArgumentException($"'{nameof(configurationFileContent)}' cannot be null or whitespace.", nameof(configurationFileContent));
+
+			var jsonResponse = _facadeClient.ResolveJsonResponseClient();
+			var driverConfiguration = jsonResponse.DeserializeResponse<DriverConfiguration>(configurationFileContent);
+
+			return driverConfiguration;
+		}
+
+		private Browser SetupBrowser()
+		{
+			var browser = _driverConfiguration.Browser;
 
 			return browser;
 		}
 
+		private string SetupBaseUrl()
+		{
+			var baseUrl = _driverConfiguration.BaseUrl;
+
+			return baseUrl;
+		}
+
 		private IWebDriver LaunchWebDriver()
 		{
-			IWebDriver? driver;
-
-			switch (_browser)
+			var driver = _browser switch
 			{
-				case Browser.Chrome:
-					driver = LaunchChromeDriver();
-					break;
-				case Browser.Firefox:
-					driver = LaunchFirefoxDriver();
-					break;
-				case Browser.Edge:
-					driver = LaunchEdgeDriver();
-					break;
-				case Browser.HeadlessChrome:
-					driver = LaunchHeadlessChromeDriver();
-					break;
-				case Browser.HeadlessFirefox:
-					driver = LaunchHeadlessFirefoxDriver();
-					break;
-				case Browser.HeadlessEdge:
-					driver = LaunchHeadlessEdgeDriver();
-					break;
-				default:
-					driver = LaunchChromeDriver();
-					break;
-			}
+				Browser.Chrome => LaunchChromeDriver(),
+				Browser.Firefox => LaunchFirefoxDriver(),
+				Browser.Edge => LaunchEdgeDriver(),
+				Browser.HeadlessChrome => LaunchHeadlessChromeDriver(),
+				Browser.HeadlessFirefox => LaunchHeadlessFirefoxDriver(),
+				Browser.HeadlessEdge => LaunchHeadlessEdgeDriver(),
+				_ => LaunchChromeDriver(),
+			};
 
 			return driver;
 		}
@@ -72,12 +113,12 @@ namespace WebDriverClient.Classes
 		{
 			_ = new DriverManager().SetUpDriver(new ChromeConfig());
 
-			var options = new ChromeOptions();
-			options.AddArgument("--incognito");
-			options.AddArgument("--no-default-browser-check");
-			options.AddArgument("--ignore-certificate-errors-spki-list");
+			_options = new ChromeOptions();
+			_options.AddArgument("--incognito");
+			_options.AddArgument("--no-default-browser-check");
+			_options.AddArgument("--ignore-certificate-errors-spki-list");
 
-			var driver = new ChromeDriver(options);
+			var driver = new ChromeDriver(_options);
 
 			return driver;
 		}
@@ -86,10 +127,10 @@ namespace WebDriverClient.Classes
 		{
 			_ = new DriverManager().SetUpDriver(new FirefoxConfig());
 
-			var options = new FirefoxOptions();
-			options.AddArgument("--private");
+			_options = new FirefoxOptions();
+			_options.AddArgument("--private");
 
-			var driver = new FirefoxDriver(options);
+			var driver = new FirefoxDriver(_options);
 
 			return driver;
 		}
@@ -98,10 +139,10 @@ namespace WebDriverClient.Classes
 		{
 			_ = new DriverManager().SetUpDriver(new EdgeConfig());
 
-			var options = new EdgeOptions();
-			options.AddArgument("--inprivate");
+			_options = new EdgeOptions();
+			_options.AddArgument("--inprivate");
 
-			var driver = new EdgeDriver(options);
+			var driver = new EdgeDriver(_options);
 
 			return driver;
 		}
@@ -110,12 +151,12 @@ namespace WebDriverClient.Classes
 		{
 			_ = new DriverManager().SetUpDriver(new ChromeConfig());
 
-			var options = new ChromeOptions();
-			options.AddArgument("--headless");
-			options.AddArgument("--incognito");
-			options.AddArgument("--no-default-browser-check");
+			_options = new ChromeOptions();
+			_options.AddArgument("--headless");
+			_options.AddArgument("--incognito");
+			_options.AddArgument("--no-default-browser-check");
 
-			var driver = new ChromeDriver(options);
+			var driver = new ChromeDriver(_options);
 
 			return driver;
 		}
@@ -124,11 +165,11 @@ namespace WebDriverClient.Classes
 		{
 			_ = new DriverManager().SetUpDriver(new FirefoxConfig());
 
-			var options = new FirefoxOptions();
-			options.AddArgument("--private");
-			options.AddArgument("--headless");
+			_options = new FirefoxOptions();
+			_options.AddArgument("--private");
+			_options.AddArgument("--headless");
 
-			var driver = new FirefoxDriver(options);
+			var driver = new FirefoxDriver(_options);
 
 			return driver;
 		}
@@ -137,13 +178,79 @@ namespace WebDriverClient.Classes
 		{
 			_ = new DriverManager().SetUpDriver(new EdgeConfig());
 
-			var options = new EdgeOptions();
-			options.AddArgument("--headless");
-			options.AddArgument("--inprivate");
+			_options = new EdgeOptions();
+			_options.AddArgument("--headless");
+			_options.AddArgument("--inprivate");
 
-			var driver = new EdgeDriver(options);
+			var driver = new EdgeDriver(_options);
 
 			return driver;
+		}
+
+		private WebDriverWait SetupWebDriverWait()
+		{
+			SetupTimeouts();
+
+			_clock = new SystemClock();
+
+			var webDriverWait = new WebDriverWait(_clock, _webDriver, _explicitWaitSeconds, _sleepIntervalSeconds);
+
+			return webDriverWait;
+		}
+
+		private void SetupTimeouts()
+		{
+			_pageLoadSeconds = _driverConfiguration.PageLoad;
+			_implicitWaitSeconds = _driverConfiguration.ImplicitWait;
+			_explicitWaitSeconds = _driverConfiguration.ExplicitWait;
+			_sleepIntervalSeconds = _driverConfiguration.SleepInterval;
+
+			_webDriver.Manage().Timeouts().PageLoad = _pageLoadSeconds;
+			_webDriver.Manage().Timeouts().ImplicitWait = _implicitWaitSeconds;
+		}
+
+		public void NavigateToUrl()
+		{
+			_webDriver.Navigate().GoToUrl(_baseUrl);
+		}
+
+		public void NavigateToUrl(string url)
+		{
+			_webDriver.Navigate().GoToUrl(url);
+		}
+
+		public string GetCurrentUrl()
+		{
+			var url = _webDriver.Url;
+
+			return url;
+		}
+
+		public void CloseBrowserTab()
+		{
+			_webDriver.Close();
+		}
+
+		public void QuitWebDriver()
+		{
+			_webDriver.Quit();
+		}
+
+		public void DisposeWebDriver()
+		{
+			_webDriver.Dispose();
+		}
+
+		public void TerminateWebDriver()
+		{
+			CloseBrowserTab();
+			QuitWebDriver();
+			DisposeWebDriver();
+		}
+
+		public IWebDriver GetInstanceOf()
+		{
+			return _webDriver;
 		}
 	}
 }

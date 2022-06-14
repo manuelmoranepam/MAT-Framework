@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ConfigurationClient\ConfigurationClient.csproj" />
+    <ProjectReference Include="..\JsonResponseClient\JsonResponseClient.csproj" />
+    <ProjectReference Include="..\WebDriverClient\WebDriverClient.csproj" />
   </ItemGroup>
 
 </Project>
