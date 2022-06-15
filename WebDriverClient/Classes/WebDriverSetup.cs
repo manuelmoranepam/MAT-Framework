@@ -31,6 +31,8 @@ namespace WebDriverClient.Classes
 		private readonly IWebDriver _webDriver;
 		private readonly WebDriverWait _webDriverWait;
 
+		public WebDriverWait WebDriverWait { get => _webDriverWait; }
+
 		public WebDriverSetup(IContainer container, IConfigurationFileInformation configurationFileInformation)
 		{
 			if (container is null)
