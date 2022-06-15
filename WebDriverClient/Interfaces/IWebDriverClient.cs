@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace WebDriverClient.Interfaces
 {
@@ -12,5 +13,6 @@ namespace WebDriverClient.Interfaces
 		void NavigateToUrl(string url);
 		void QuitWebDriver();
 		void TerminateWebDriver();
+		WebDriverWait WebDriverWait { get; }
 	}
 }

@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebDriverClient", "WebDrive
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfigurationClient", "ConfigurationClient\ConfigurationClient.csproj", "{E23D580A-C55B-42BA-8267-AA794F2A06C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDriverClient.UnitTests", "WebDriverClient.UnitTests\WebDriverClient.UnitTests.csproj", "{68134D95-81E5-4DC7-A63B-9BAB4752FEDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebDriverClient.UnitTests", "WebDriverClient.UnitTests\WebDriverClient.UnitTests.csproj", "{68134D95-81E5-4DC7-A63B-9BAB4752FEDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonResponseClient", "JsonResponseClient\JsonResponseClient.csproj", "{0920970D-5715-4125-A0C1-86C0B954E335}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonResponseClient", "JsonResponseClient\JsonResponseClient.csproj", "{0920970D-5715-4125-A0C1-86C0B954E335}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacadeService", "FacadeService\FacadeService.csproj", "{27A77372-1295-4E67-91A5-F7DD428ADF0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacadeService", "FacadeService\FacadeService.csproj", "{27A77372-1295-4E67-91A5-F7DD428ADF0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrangeHRMTestingSuite", "OrangeHRMTestingSuite\OrangeHRMTestingSuite.csproj", "{39BB8DAA-375D-460D-B148-11FD6A5092AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{27A77372-1295-4E67-91A5-F7DD428ADF0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27A77372-1295-4E67-91A5-F7DD428ADF0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27A77372-1295-4E67-91A5-F7DD428ADF0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39BB8DAA-375D-460D-B148-11FD6A5092AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39BB8DAA-375D-460D-B148-11FD6A5092AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39BB8DAA-375D-460D-B148-11FD6A5092AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39BB8DAA-375D-460D-B148-11FD6A5092AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

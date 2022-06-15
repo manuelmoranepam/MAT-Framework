@@ -2,7 +2,7 @@
 {
 	public interface IConfigurationClient
 	{
-		string? GetConfigurationFileContent();
+		string GetConfigurationFileContent();
 		T GetValue<T>(string key);
 	}
 }
