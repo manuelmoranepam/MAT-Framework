@@ -9,6 +9,12 @@ namespace OrangeHRMTestingSuite.Models
 		public string Password { get; set; }
 		public string? Nationality { get; set; }
 
+		public User()
+		{
+			UserName = string.Empty;
+			Password = string.Empty;
+		}
+
 		public User(string userName, string password)
 		{
 			if (string.IsNullOrEmpty(userName))

@@ -1,4 +1,6 @@
-﻿using OrangeHRMTestingSuite.Interfaces;
+﻿using OrangeHRMTestingSuite.Helpers;
+using OrangeHRMTestingSuite.Interfaces;
+using OrangeHRMTestingSuite.Models;
 using OrangeHRMTestingSuite.PageObjects.MyInfo;
 using WebDriverClient.Interfaces;
 
@@ -38,7 +40,12 @@ namespace OrangeHRMTestingSuite.BusinessActions.MyInfo
 
 			_myInfoPage = new MyInfoPage(_webDriverClient);
 
-			//TODO: Implement methods to fill form
+			var list = new List<string>() { "American", "Mexican", "Canadian" };
+
+			var nationalities = _myInfoPage.GetNationalityNotInList(list);
+			var index = RandomDataHelper.GetRandomIndex(nationalities.Count);
+
+			_myInfoPage.SelectNationality(nationalities[index]);
 		}
 
 		public bool IsSaveButtonDisplayed()
@@ -55,6 +62,18 @@ namespace OrangeHRMTestingSuite.BusinessActions.MyInfo
 			_myInfoPage = new MyInfoPage(_webDriverClient);
 
 			_myInfoPage.ClickSaveButton();
+		}
+
+		public IUser GetStoredValues()
+		{
+			_myInfoPage = new MyInfoPage(_webDriverClient);
+
+			var user = new User
+			{
+				Nationality = _myInfoPage.GetSelectedNationality()
+			};
+
+			return user;
 		}
 	}
 }
