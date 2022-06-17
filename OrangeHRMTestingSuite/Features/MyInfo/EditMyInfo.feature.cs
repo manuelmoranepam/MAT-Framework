@@ -75,14 +75,14 @@ namespace OrangeHRMTestingSuite.Features.MyInfo
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Verify the Nationality field on the Personal Details form is not required")]
+        [NUnit.Framework.DescriptionAttribute("Verify the Personal Details form allows editing the Nationality field")]
         [NUnit.Framework.CategoryAttribute("MyInfo")]
-        public void VerifyTheNationalityFieldOnThePersonalDetailsFormIsNotRequired()
+        public void VerifyThePersonalDetailsFormAllowsEditingTheNationalityField()
         {
             string[] tagsOfScenario = new string[] {
                     "MyInfo"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify the Nationality field on the Personal Details form is not required", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify the Personal Details form allows editing the Nationality field", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 8
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -100,10 +100,10 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("I navigate to the My Info page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 11
- testRunner.And("I reset the Nationality dropdown to the default option", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I use my custom Select Element methods for the Nationality Dropdown", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
- testRunner.Then("I save the changes to verify the Nationality dropdown is not required", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I save the changes to verify the Nationality dropdown saved my selected option", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

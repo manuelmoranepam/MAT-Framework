@@ -21,21 +21,26 @@ namespace OrangeHRMTestingSuite.StepDefinitions.MyInfo
 			_webDriverClient = (IWebDriverClient)_scenarioContext["WebDriverClient"];
 		}
 
-		[When(@"I reset the Nationality dropdown to the default option")]
-		public void WhenIResetTheNationalityDropdownToTheDefaultOption()
+		[When(@"I use my custom Select Element methods for the Nationality Dropdown")]
+		public void WhenIUseMyCustomSelectElementMethodsForTheNationalityDropdown()
 		{
 			var user = (IUser)_scenarioContext["User"];
-			user.Nationality = string.Empty;
 
 			_myInfoBusinessAction = new MyInfoBusinessAction(_webDriverClient);
 
 			_myInfoBusinessAction.EditMyInfoForm();
 			_myInfoBusinessAction.FillMyInfoForm(user);
 			_myInfoBusinessAction.SaveMyInfoForm();
+
+			user.Nationality = _myInfoBusinessAction
+				.GetStoredValues()
+				.Nationality;
+
+			_scenarioContext["User"] = user;
 		}
 
-		[Then(@"I save the changes to verify the Nationality dropdown is not required")]
-		public void ThenISaveTheChangesToVerifyTheNationalityDropdownIsNotRequired()
+		[Then(@"I save the changes to verify the Nationality dropdown saved my selected option")]
+		public void ThenISaveTheChangesToVerifyTheNationalityDropdownSavedMySelectedOption()
 		{
 			_myInfoBusinessAction = new MyInfoBusinessAction(_webDriverClient);
 
@@ -44,6 +49,15 @@ namespace OrangeHRMTestingSuite.StepDefinitions.MyInfo
 			Assert.That(
 				isDisplayed, Is.True,
 				"The Edit button is not displayed. The form was not saved.");
+
+			var expectedUser = (IUser)_scenarioContext["User"];
+			var actualUser = _myInfoBusinessAction.GetStoredValues();
+
+			Assert.That(
+				actualUser.Nationality, Is.EqualTo(expectedUser.Nationality),
+				$"The expected and actual nationalities are not equal. " +
+				$"Expected: {expectedUser.Nationality}. " +
+				$"Actual: {actualUser.Nationality}.");
 		}
 	}
 }

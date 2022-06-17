@@ -55,6 +55,8 @@ namespace WebDriverClient.Classes
 			_webDriver = LaunchWebDriver();
 
 			_webDriverWait = SetupWebDriverWait();
+
+			_webDriver.Manage().Window.Maximize();
 		}
 
 		private IConfigurationClient SetupConfigurationClient()
