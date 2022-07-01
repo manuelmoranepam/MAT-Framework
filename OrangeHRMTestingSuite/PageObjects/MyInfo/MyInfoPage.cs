@@ -11,7 +11,7 @@ namespace OrangeHRMTestingSuite.PageObjects.MyInfo
 		private readonly IWebDriverClient _webDriverClient;
 		private readonly IWebDriver _webDriver;
 
-		private SelectElement _selectElement;
+		private SelectElement? _selectElement;
 
 		public MyInfoPage(IWebDriverClient webDriverClient)
 		{
@@ -74,11 +74,7 @@ namespace OrangeHRMTestingSuite.PageObjects.MyInfo
 
 			_selectElement = new SelectElement(NationalityDropdown);
 
-			var optionText = _selectElement.Options
-				.First(option => option.Text == nationality)
-				.Text;
-
-			_selectElement.SelectByText(optionText);
+			_selectElement.SelectByText(nationality);
 		}
 
 		public void SelectNationalityByPartial(string partialNationality)
@@ -89,7 +85,7 @@ namespace OrangeHRMTestingSuite.PageObjects.MyInfo
 			_selectElement = new SelectElement(NationalityDropdown);
 
 			var optionText = _selectElement.Options
-				.First(option => option.Text.Contains(partialNationality))
+				.Last(option => option.Text.Contains(partialNationality))
 				.Text;
 
 			_selectElement.SelectByText(optionText);
@@ -114,7 +110,7 @@ namespace OrangeHRMTestingSuite.PageObjects.MyInfo
 
 			_selectElement = new SelectElement(NationalityDropdown);
 
-			var count = _selectElement.Options.Count;
+			var count = _selectElement.Options.Count - 1;
 
 			return count;
 		}

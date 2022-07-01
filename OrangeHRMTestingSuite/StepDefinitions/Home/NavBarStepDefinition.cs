@@ -9,21 +9,20 @@ namespace OrangeHRMTestingSuite.StepDefinitions.Home
 	{
 		private readonly ScenarioContext _scenarioContext;
 		private readonly IWebDriverClient _webDriverClient;
-
-		private NavBarBusinessAction? _navBarBusinessAction;
+		private readonly NavBarBusinessAction _navBarBusinessAction;
 
 		public NavBarStepDefinition(ScenarioContext scenarioContext)
 		{
 			_scenarioContext = scenarioContext;
 
 			_webDriverClient = (IWebDriverClient)_scenarioContext["WebDriverClient"];
+
+			_navBarBusinessAction = new NavBarBusinessAction(_webDriverClient);
 		}
 
 		[When(@"I navigate to the My Info page")]
 		public void WhenINavigateToTheMyInfoPage()
 		{
-			_navBarBusinessAction = new NavBarBusinessAction(_webDriverClient);
-
 			_navBarBusinessAction.NavigateToMyInfoPage();
 		}
 	}

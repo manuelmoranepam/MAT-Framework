@@ -11,22 +11,21 @@ namespace OrangeHRMTestingSuite.StepDefinitions.MyInfo
 	{
 		private readonly ScenarioContext _scenarioContext;
 		private readonly IWebDriverClient _webDriverClient;
-
-		private MyInfoBusinessAction? _myInfoBusinessAction;
+		private readonly MyInfoBusinessAction _myInfoBusinessAction;
 
 		public MyInfoStepDefinition(ScenarioContext scenarioContext)
 		{
 			_scenarioContext = scenarioContext;
 
 			_webDriverClient = (IWebDriverClient)_scenarioContext["WebDriverClient"];
+
+			_myInfoBusinessAction = new MyInfoBusinessAction(_webDriverClient);
 		}
 
 		[When(@"I use my custom Select Element methods for the Nationality Dropdown")]
 		public void WhenIUseMyCustomSelectElementMethodsForTheNationalityDropdown()
 		{
 			var user = (IUser)_scenarioContext["User"];
-
-			_myInfoBusinessAction = new MyInfoBusinessAction(_webDriverClient);
 
 			_myInfoBusinessAction.EditMyInfoForm();
 			_myInfoBusinessAction.FillMyInfoForm(user);
@@ -42,8 +41,6 @@ namespace OrangeHRMTestingSuite.StepDefinitions.MyInfo
 		[Then(@"I save the changes to verify the Nationality dropdown saved my selected option")]
 		public void ThenISaveTheChangesToVerifyTheNationalityDropdownSavedMySelectedOption()
 		{
-			_myInfoBusinessAction = new MyInfoBusinessAction(_webDriverClient);
-
 			var isDisplayed = _myInfoBusinessAction.IsEditButtonDisplayed();
 
 			Assert.That(
