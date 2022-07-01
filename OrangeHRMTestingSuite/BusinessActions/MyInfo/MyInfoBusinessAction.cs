@@ -41,11 +41,11 @@ namespace OrangeHRMTestingSuite.BusinessActions.MyInfo
 			_myInfoPage = new MyInfoPage(_webDriverClient);
 
 			var list = new List<string>() { "American", "Mexican", "Canadian" };
-
 			var nationalities = _myInfoPage.GetNationalityNotInList(list);
 			var index = RandomDataHelper.GetRandomIndex(nationalities.Count);
+			var nationality = nationalities[index];
 
-			_myInfoPage.SelectNationality(nationalities[index]);
+			_myInfoPage.SelectNationality(nationality);
 		}
 
 		public bool IsSaveButtonDisplayed()

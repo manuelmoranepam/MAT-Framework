@@ -11,8 +11,8 @@ namespace OrangeHRMTestingSuite.StepDefinitions.Login
 	{
 		private readonly ScenarioContext _scenarioContext;
 		private readonly IWebDriverClient _driverClient;
+		private readonly LoginBusinessAction _loginBusinessAction;
 
-		private LoginBusinessAction? _loginBusinessAction;
 		private IUser? _user;
 
 		public LoginStepDefinition(ScenarioContext scenarioContext)
@@ -20,14 +20,15 @@ namespace OrangeHRMTestingSuite.StepDefinitions.Login
 			_scenarioContext = scenarioContext;
 			
 			_driverClient = (IWebDriverClient)_scenarioContext["WebDriverClient"];
+
+			_loginBusinessAction = new LoginBusinessAction(_driverClient);
 		}
 
 		[Given(@"I log into the application with the user '([^']*)' and password '([^']*)'")]
 		public void GivenILogIntoTheApplicationWithTheUserAndPassword(string username, string password)
 		{
 			_user = new User(username, password);
-
-			_loginBusinessAction = new LoginBusinessAction(_driverClient);
+			
 			_loginBusinessAction.Login(_user);
 
 			_scenarioContext["User"] = _user;
